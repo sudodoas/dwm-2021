@@ -698,7 +698,8 @@ void
 drawbar(Monitor *m)
 {
 	int x, w, sw = 0;
-	int boxs = drw->fonts->h / 9;
+//	int boxs = drw->fonts->h / 9;
+	int boxs = 0;
 	//int boxw = drw->fonts->h / 6 + 20;
 	int boxw = drw->fonts->h;
 	int boxh = 2;
