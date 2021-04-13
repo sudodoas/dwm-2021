@@ -4,18 +4,21 @@
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int barheight = 8;
+static const unsigned int barheight = 10;
+
 
 static const unsigned int gappx     = 6;        /* gaps between windows */
  
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
+static const int topbar             = 0;        /* 0 means bottom bar */
 
-static const int vertpad            = 0;       /* vertical padding of bar */
-static const int sidepad            = 0;       /* horizontal padding of bar */
+static const int vertpad            = 10;       /* vertical padding of bar */
+static const int sidepad            = 10;       /* horizontal padding of bar */
 
-static const char *fonts[]          = { "MesloLGS:pixelsize=14:antialias=true:autohint=true", "fontawesome:pixelsize=20:antialias=true:autohint=true" };
-static const char dmenufont[]       = {"monospace:size=15"};
+static const char *fonts[]          = { "Symbols Nerd Font:size=12:antialias=true:autohint=true", "fontawesome:pixelsize=20:antialias=true:autohint=true" };
+//static const char *fonts[]          = { "Hack-Regular:pixelsize=14:antialias=true:autohint=true", "fontawesome:pixelsize=20:antialias=true:autohint=true" };
+//static const char dmenufont[]       = {"monospace:size=15"};
+static const char dmenufont[]       = {"Hack-Regular:size=15"};
 
 
 //static const char col_gray1[]       = "#222222";
@@ -29,16 +32,31 @@ static const char col_gray2[]       = "#444444"; //border color when not selecte
 static const char col_gray3[]       = "#ebdbb2"; //text color... I think
 static const char col_gray4[]       = "#ebdbb2"; //text color when selected in bar
 //static const char col_cyan[]        = "#98971a"; //main color in dwm bar
-static const char col_cyan[]        = "#cc241d"; //main color in dwm bar
+//static const char col_cyan[]        = "#cc241d"; //main color in dwm bar
+
+static const char col_gruvyellow[]  = "#d79921"; //gruvbox yellow
+static const char col_gruvgreen[]	= "#689d6a";
+static const char col_gruvblue[]	= "#458588";
+static const char col_gruvwhite[]	= "#ebdbb2";
+static const char col_gruvred[]		= "#cc241d";
+static const char col_gruvmagenta[]	= "#b16286";
+static const char col_gruvblack[]	= "#282828";
+
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm] = { col_gray3, col_gruvwhite, col_gray2 },
+	[SchemeSel]  = { col_gray4, col_gruvyellow,  col_gruvyellow},
+	[SchemeStatus]  = { col_gray3, col_gruvblue,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	[SchemeTagsSel]  = { col_gray4, col_gruvgreen,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+    [SchemeTagsNorm]  = { col_gray3, col_gruvblack,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+    [SchemeInfoSel]  = { col_gray4, col_gruvgreen,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+    [SchemeInfoNorm]  = { col_gray3, col_gruvgreen,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "", "", "", "", "", "杖", "", "" };
+
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -57,9 +75,12 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+//	{ "[]=",      tile },    /* first entry is default */
+//	{ "><>",      NULL },    /* no layout function means floating behavior */
+//	{ "[M]",      monocle },
+	{ "",      tile },    /* first entry is default */
+	{ "",      NULL },    /* no layout function means floating behavior */
+	{ "",      monocle },
 };
 
 /* key definitions */
@@ -75,7 +96,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_gruvyellow, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
