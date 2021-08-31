@@ -1,4 +1,6 @@
 #include <X11/XF86keysym.h>
+#include "fibonacci.c"
+#include "nord.h"
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -7,13 +9,18 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int barheight = 10;
 
 
-static const unsigned int gappx     = 6;        /* gaps between windows */
+static const unsigned int gappx     = 2;        /* gaps between windows */
  
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 
-static const int vertpad            = 10;       /* vertical padding of bar */
-static const int sidepad            = 10;       /* horizontal padding of bar */
+static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int showsystray        = 1;     /* 0 means no systray */
+
+static const int vertpad            = 0;       /* vertical padding of bar */
+static const int sidepad            = 0;       /* horizontal padding of bar */
 
 static const char *fonts[]          = { "Symbols Nerd Font:size=12:antialias=true:autohint=true", "fontawesome:pixelsize=20:antialias=true:autohint=true" };
 //static const char *fonts[]          = { "Hack-Regular:pixelsize=14:antialias=true:autohint=true", "fontawesome:pixelsize=20:antialias=true:autohint=true" };
@@ -27,35 +34,36 @@ static const char dmenufont[]       = {"Hack-Regular:size=15"};
 //static const char col_gray4[]       = "#eeeeee";
 //static const char col_cyan[]        = "#005577";
 
-static const char col_gray1[]       = "#282828"; //background grey color in staus bar
-static const char col_gray2[]       = "#444444"; //border color when not selected
-static const char col_gray3[]       = "#ebdbb2"; //text color... I think
-static const char col_gray4[]       = "#ebdbb2"; //text color when selected in bar
-//static const char col_cyan[]        = "#98971a"; //main color in dwm bar
-//static const char col_cyan[]        = "#cc241d"; //main color in dwm bar
-
-static const char col_gruvyellow[]  = "#d79921"; //gruvbox yellow
-static const char col_gruvgreen[]	= "#689d6a";
-static const char col_gruvblue[]	= "#458588";
-static const char col_gruvwhite[]	= "#ebdbb2";
-static const char col_gruvred[]		= "#cc241d";
-static const char col_gruvmagenta[]	= "#b16286";
-static const char col_gruvblack[]	= "#282828";
+//static const char col_gray1[]       = "#282828"; //background grey color in staus bar
+//static const char col_gray2[]       = "#444444"; //border color when not selected
+//static const char col_gray3[]       = "#ebdbb2"; //text color... I think
+//static const char col_gray4[]       = "#ebdbb2"; //text color when selected in bar
+////static const char col_cyan[]        = "#98971a"; //main color in dwm bar
+////static const char col_cyan[]        = "#cc241d"; //main color in dwm bar
+//
+//static const char col_gruvyellow[]  = "#d79921"; //gruvbox yellow
+//static const char col_gruvgreen[]	= "#689d6a";
+//static const char col_gruvblue[]	= "#458588";
+//static const char col_gruvwhite[]	= "#ebdbb2";
+//static const char col_gruvred[]		= "#cc241d";
+//static const char col_gruvmagenta[]	= "#b16286";
+//static const char col_gruvblack[]	= "#282828";
 
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gruvwhite, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_gruvyellow,  col_gruvyellow},
-	[SchemeStatus]  = { col_gray3, col_gruvblue,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { col_gray4, col_gruvgreen,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-    [SchemeTagsNorm]  = { col_gray3, col_gruvblack,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-    [SchemeInfoSel]  = { col_gray4, col_gruvgreen,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-    [SchemeInfoNorm]  = { col_gray3, col_gruvgreen,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+	[SchemeNorm] = { col_gray4, col_nordblue, col_gray2 },
+	[SchemeSel]  = { col_nordblue, col_nordred,  col_nordblue},
+	[SchemeStatus]  = { col_norddark, col_nordorange,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	[SchemeTagsSel]  = { col_gray4, col_nordred,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+    [SchemeTagsNorm]  = { col_gray4, col_norddark,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+    [SchemeInfoSel]  = { col_norddark, col_nordred,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+    [SchemeInfoNorm]  = { col_norddark, col_nordred,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
 static const char *tags[] = { "", "", "", "", "", "", "杖", "", "" };
+//static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 
 static const Rule rules[] = {
@@ -65,6 +73,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	{ "Typhon",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
@@ -81,6 +90,8 @@ static const Layout layouts[] = {
 	{ "",      tile },    /* first entry is default */
 	{ "",      NULL },    /* no layout function means floating behavior */
 	{ "",      monocle },
+ 	{ "[@]",      spiral },
+ 	{ "[\\]",      dwindle },
 };
 
 /* key definitions */
@@ -96,7 +107,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_gruvyellow, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_norddark, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
@@ -116,6 +127,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -142,11 +154,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_a,      spawn,           SHCMD("sh /home/wifiengine/.scripts/dictionary/test.sh") },
     { MODKEY,                       XK_e,      spawn,           SHCMD("sh /home/wifiengine/.scripts/emojis/search.sh") },
 	{ MODKEY,                       XK_u,      spawn,           SHCMD("sh /home/wifiengine/.scripts/phonetic/search.sh") },
-//	{ MODKEY|ShiftMask,             XK_s,      spawn,           SHCMD("python ~/.scripts/movewindow/right.py") },
-//	{ MODKEY|ShiftMask,             XK_h,      spawn,           SHCMD("python ~/.scripts/movewindow/left.py") },
-//
-//
-//
+
+
+
 	{0, XF86XK_AudioRaiseVolume,	        spawn,	SHCMD("amixer set 'Master' 10%+") },
 	{0, XF86XK_AudioLowerVolume,	        spawn,	SHCMD("amixer set 'Master' 10%-") },
 	{0, XF86XK_AudioMute,          	        spawn,	SHCMD("amixer set 'Master' 0%") },

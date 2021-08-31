@@ -57,6 +57,7 @@
 #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
 
+
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
 enum { SchemeNorm, SchemeSel, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm }; /* color schemes */
@@ -701,18 +702,23 @@ drawbar(Monitor *m)
 //	int boxs = drw->fonts->h / 9;
 	int boxs = 0;
 	//int boxw = drw->fonts->h / 6 + 20;
-	int boxw = drw->fonts->h;
+	//int boxw = drw->fonts->h;
+	int boxw = 0;
 	int boxh = 2;
 	int boxx = 0;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
+
 	/* draw status first so it can be overdrawn by tags later */
-	if (m == selmon) { /* status is only drawn on selected monitor */
+//	if (m == selmon) { /* status is only drawn on selected monitor */
+	if (m == selmon || 1) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeStatus]);
 		sw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
 		drw_text(drw, m->ww - sw - 2 * sp, 0, sw, bh, 0, stext, 0);
 	}
+
+	
 
 	for (c = m->clients; c; c = c->next) {
 		occ |= c->tags;
@@ -2024,9 +2030,13 @@ updatesizehints(Client *c)
 void
 updatestatus(void)
 {
+	Monitor* m;
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
 		strcpy(stext, "dwm-"VERSION);
-	drawbar(selmon);
+	for(m = mons; m; m = m->next)
+		drawbar(m);
+//	for(m = mons; m; m = m->next)
+//		drawbar(m);
 }
 
 void
@@ -2184,3 +2194,4 @@ main(int argc, char *argv[])
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
 }
+
