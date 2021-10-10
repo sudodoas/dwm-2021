@@ -17,9 +17,9 @@ static const char col_gray3[]       = "#ebdbb2"; //text color... I think
 static const char col_gray4[]       = "#D8DEE9"; //text color when selected in bar
 
 static const char col_nordyellow[]  = "#EBCB8B"; //gruvbox yellow
-static const char col_nordred[]	= "#BF616A";
-static const char col_nordorange[]	= "#D08770";
-static const char col_nordblue[]	= "#8FBCBB";
-static const char col_gruvred[]		= "#cc241d";
+static const char col_nordred[]	= "#BF616A"; //middle colour of bar
+static const char col_nordorange[]	= "#D08770"; //status bar colour
+static const char col_nordblue[]	= "#8FBCBB"; //colour of systray
+static const char col_gruvred[]		= "#cc241d"; 
 static const char col_gruvmagenta[]	= "#b16286";
 static const char col_norddark[]	= "#282828";
