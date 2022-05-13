@@ -1,6 +1,6 @@
 #include <X11/XF86keysym.h>
 #include "fibonacci.c"
-#include "colorschemes/dracula.h"
+#include "colorschemes/ashes.h"
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -107,7 +107,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", status_bg, "-nf", centre_fg, "-sb", centre_bg, "-sf", centre_fg, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", status_bg, "-nf", status_fg, "-sb", centre_bg, "-sf", status_bg, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
