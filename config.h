@@ -1,6 +1,6 @@
 #include <X11/XF86keysym.h>
 #include "fibonacci.c"
-#include "colorschemes/ashes.h"
+#include "colorschemes/gruvbox.h"
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -12,42 +12,21 @@ static const unsigned int barheight = 10;
 static const unsigned int gappx     = 2;        /* gaps between windows */
  
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
 
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const unsigned int systrayspacing = 3;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;     /* 0 means no systray */
 
-static const int vertpad            = 0;       /* vertical padding of bar */
-static const int sidepad            = 0;       /* horizontal padding of bar */
+static const int vertpad            = 3;       /* vertical padding of bar */
+static const int sidepad            = 3;       /* horizontal padding of bar */
 
 static const char *fonts[]          = { "Symbols Nerd Font:size=12:antialias=true:autohint=true", "fontawesome:pixelsize=20:antialias=true:autohint=true" };
 //static const char *fonts[]          = { "Hack-Regular:pixelsize=14:antialias=true:autohint=true", "fontawesome:pixelsize=20:antialias=true:autohint=true" };
 //static const char dmenufont[]       = {"monospace:size=15"};
 static const char dmenufont[]       = {"Hack-Regular:size=15"};
 
-
-//static const char col_gray1[]       = "#222222";
-//static const char col_gray2[]       = "#444444";
-//static const char col_gray3[]       = "#bbbbbb";
-//static const char col_gray4[]       = "#eeeeee";
-//static const char col_cyan[]        = "#005577";
-
-//static const char col_gray1[]       = "#282828"; //background grey color in staus bar
-//static const char col_gray2[]       = "#444444"; //border color when not selected
-//static const char col_gray3[]       = "#ebdbb2"; //text color... I think
-//static const char col_gray4[]       = "#ebdbb2"; //text color when selected in bar
-////static const char col_cyan[]        = "#98971a"; //main color in dwm bar
-////static const char col_cyan[]        = "#cc241d"; //main color in dwm bar
-//
-//static const char col_gruvyellow[]  = "#d79921"; //gruvbox yellow
-//static const char col_gruvgreen[]	= "#689d6a";
-//static const char col_gruvblue[]	= "#458588";
-//static const char col_gruvwhite[]	= "#ebdbb2";
-//static const char col_gruvred[]		= "#cc241d";
-//static const char col_gruvmagenta[]	= "#b16286";
-//static const char col_gruvblack[]	= "#282828";
 
 
 static const char *colors[][3]      = {
@@ -62,7 +41,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "", "杖", "", "" };
+static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
 //static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 
@@ -88,7 +67,7 @@ static const Layout layouts[] = {
 //	{ "><>",      NULL },    /* no layout function means floating behavior */
 //	{ "[M]",      monocle },
 	{ "",      tile },    /* first entry is default */
-	{ "",      NULL },    /* no layout function means floating behavior */
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "",      monocle },
  	{ "[@]",      spiral },
  	{ "[\\]",      dwindle },
@@ -150,11 +129,14 @@ static Key keys[] = {
 
 
 
-	{ MODKEY,                       XK_q,      spawn,           SHCMD("qutebrowser") },
-	{ MODKEY,                       XK_w,      spawn,           SHCMD("st ranger") },
+//	{ MODKEY,                       XK_q,      spawn,           SHCMD("qutebrowser") },
+//	{ MODKEY,                       XK_w,      spawn,           SHCMD("st ranger") },
+//	{ MODKEY,                       XK_w,      spawn,           SHCMD("sh /home/wifiengine/.scripts/altus/test.sh") },
+	{ MODKEY,                       XK_w,      spawn,           SHCMD("/home/wifiengine/.source/xmouseless-master/xmouseless") },
 	{ MODKEY,                       XK_a,      spawn,           SHCMD("sh /home/wifiengine/.scripts/dictionary/test.sh") },
     { MODKEY,                       XK_e,      spawn,           SHCMD("sh /home/wifiengine/.scripts/emojis/search.sh") },
 	{ MODKEY,                       XK_u,      spawn,           SHCMD("sh /home/wifiengine/.scripts/phonetic/search.sh") },
+	{ MODKEY,                       XK_x,      spawn,           SHCMD("sh /home/wifiengine/.scripts/firefox/test.sh") },
 
 
 
